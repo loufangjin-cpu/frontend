@@ -1,0 +1,24 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "art-template": "^4.13.2",
+    "art-template-loader": "^1.4.3",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "copy-webpack-plugin": "6.3.2",
+    "html-webpack-plugin": "4.5.2",
+    "webpack": "4.44.2",
+    "webpack-cli": "3.3.12",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "npx": "^10.2.2",
+    "sme-router": "^0.12.8"
+  },
+  "scripts": {
+    "build": "npx webpack",
+    "dev": "npx webpack-dev-server"
+  }
+}
