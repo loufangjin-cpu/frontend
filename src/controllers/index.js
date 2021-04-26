@@ -6,7 +6,7 @@ import loginTpl from '../views/login.art'
 import userTpl from '../views/userList.art'
 import userShowTpl from '../views/userShow.art'
 import userPage from '../views/userPage.art'
-import { data } from 'jquery'
+import router from '../router/index'
 
 const htmlIndex = indexTpl({})
 const htmlLogin = loginTpl({})
@@ -20,7 +20,19 @@ const loginGo = (router) => {
     return (e) => {
         // 阻止提交表单
         e.preventDefault()
-        router.go('/home')
+        // 登录跳转home主页
+        const data = $('#login').serialize()
+        $.ajax({
+            url: '/api/users/login',
+            type: 'post',
+            dataType: 'json',
+            data,
+            success(res) {
+                if (res.ret) {
+                    router.go('/home')
+                }
+            }
+        })
     }
 }
 
@@ -104,61 +116,96 @@ const Login = (router) => {
 // 主页渲染
 const Home = (router) => {
     return (req, res, next) => {
-        // 渲染首页
-        res.render(htmlIndex)
-        // 填充用户列表
-        $('#content').html(userTpl())
-        // 删除用户事件
-        $('#userShow').on('click', '.btn02', function () {
-            $.ajax({
-                url: 'api/users/delete',
-                type: 'delete',
-                data: {
-                    id: $(this).data('id')
-                },
-                success() {
-                    // 删除后重新刷新用户列表数据
-                    getUserList()
-                    // 判断是否删光当页数据并向前翻页
-                    const isLastPage = Math.ceil(usersData.length / pageUserList) === curPage
-                    const restOne = usersData.length % pageUserList === 1
-                    const notPageFirst = curPage !== 0
-                    if (isLastPage && restOne && notPageFirst) {
-                        curPage--
+        // 封装
+        const all = (res) => {
+            // 渲染首页
+            res.render(htmlIndex)
+
+            // 填充用户列表
+            $('#content').html(userTpl())
+
+            // 删除用户事件
+            $('#userShow').on('click', '.btn02', function () {
+                $.ajax({
+                    url: 'api/users/delete',
+                    type: 'delete',
+                    data: {
+                        id: $(this).data('id')
+                    },
+                    success() {
+                        // 删除后重新刷新用户列表数据
+                        getUserList()
+                        // 判断是否删光当页数据并向前翻页
+                        const isLastPage = Math.ceil(usersData.length / pageUserList) === curPage
+                        const restOne = usersData.length % pageUserList === 1
+                        const notPageFirst = curPage !== 0
+                        if (isLastPage && restOne && notPageFirst) {
+                            curPage--
+                        }
                     }
+                })
+            })
+
+            // 页码点击事件
+            $('#userPaging').on('click', '#userPage li:not(:first-child,:last-child)', function () {
+                // 给点击的页码高亮，并取消其他同级li高亮
+                const index = $(this).index()
+                // 根据页码索引显示不同的内容
+                showUserList(index)
+                curPage = index
+                setPageActive(curPage)
+            })
+            // 加减页事件
+            $('#userPaging').on('click', '#userPage li:first-child', function () {
+                if (curPage > 1) {
+                    curPage--
+                    showUserList(curPage)
+                    setPageActive(curPage)
                 }
             })
-        })
-        // 页码点击事件
-        $('#userPaging').on('click', '#userPage li:not(:first-child,:last-child)', function () {
-            // 给点击的页码高亮，并取消其他同级li高亮
-            const index = $(this).index()
-            // 根据页码索引显示不同的内容
-            showUserList(index)
-            curPage = index
-            setPageActive(curPage)
-        })
-        $('#userPaging').on('click', '#userPage li:first-child', function () {
-            if (curPage > 1) { 
-                curPage--
-                showUserList(curPage)
-                setPageActive(curPage)
-            }
-        })
-        $('#userPaging').on('click', '#userPage li:last-child', function () {
-            if (curPage < Math.ceil(usersData.length / pageUserList)) { 
-                curPage++
-                showUserList(curPage)
-                setPageActive(curPage)
-            }
-        })
-        // 获取用户列表数据
-        getUserList()
-        // 点击添加事件
-        $('#userSave').on('click', userSave)
-        // 重新点击添加对话框清空输入框
-        $('#addUser').on('click', clearInput)
+            $('#userPaging').on('click', '#userPage li:last-child', function () {
+                if (curPage < Math.ceil(usersData.length / pageUserList)) {
+                    curPage++
+                    showUserList(curPage)
+                    setPageActive(curPage)
+                }
+            })
 
+            // 获取用户列表数据
+            getUserList()
+
+            // 点击添加事件
+            $('#userSave').on('click', userSave)
+
+            // 重新点击添加对话框清空输入框
+            $('#addUser').on('click', clearInput)
+
+            // 退出登录事件
+            $('#userSignout').on('click', () => {
+                $.ajax({
+                    url: '/api/users/signout',
+                    dataType: 'json',
+                    success(res) {
+                        if (res.ret) {
+                            location.reload()
+                        }
+                    }
+                })
+            })
+        }
+
+        $.ajax({
+            url: '/api/users/isAuth',
+            dataType: 'json',
+            success(result) {
+                if (result.ret) {
+                    all(res)
+                } else {
+                    router.go('/')
+                }
+            }
+        })
+        
     }
 }
 

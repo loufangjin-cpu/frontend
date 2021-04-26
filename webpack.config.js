@@ -7,6 +7,7 @@ module.exports = {
     mode: 'development', // 设置模式：开发模式
 
     devtool: 'source-map',
+    
     // 配置入口
     entry: {
         'js/app': './src/app.js'//要打包的文件路径

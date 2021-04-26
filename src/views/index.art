@@ -138,21 +138,21 @@
                   class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  xiaomai - Web Developer
+                  <small>Member since Nov. 2050</small>
                 </p>
               </li>
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
+                    <a href="#">追随者</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
+                    <a href="#">销售额</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
+                    <a href="#">朋友</a>
                   </div>
                 </div>
                 <!-- /.row -->
@@ -160,10 +160,10 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-default btn-flat">简介</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="javascript:void(0)" id="userSignout" class="btn btn-default btn-flat">退出</a>
                 </div>
               </li>
             </ul>

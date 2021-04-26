@@ -4,10 +4,23 @@ import { Login, Home } from '../controllers'
 
 const router = new SMERouter('root')//绑定要渲染页面的id
 
+// 路由守卫
+router.use((req) => {
+    // 根据用户是否登录来判断跳转页面
+    $.ajax({
+        url: '/api/users/isAuth',
+        dataType: 'json',
+        success(result) {
+            if (result.ret) {
+                router.go('/home')
+            } else {
+                router.go('/')
+            }
+        }
+    })
+})
 
-// $('#root').html(html)
-// 语法：$('要渲染的目标').html(渲染文件art)
-// 登录
+// 登录页面
 router.route('/', Login(router))
 // 主页
 router.route('/home', Home(router))
