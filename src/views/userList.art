@@ -2,7 +2,7 @@
     <!-- /.box-header -->
     <div class="box-header">
         <button type="button" class="btn btn-block btn-info btn01" data-toggle="modal"
-            data-target="#myModal">添加</button>
+            data-target="#myModal" id="addUser">添加</button>
     </div>
     <div class="box-body">
         <table class="table table-bordered">
@@ -11,24 +11,12 @@
                 <th>用户名</th>
                 <th style="width: 150px">操作</th>
             </tr>
-            <tr>
-                <td>1.</td>
-                <td>admin</td>
-                <td>
-                    <button type="button" class="btn btn-block btn-danger btn02">删除</button>
-                </td>
-            </tr>
+            <tbody id="userShow"></tbody>
         </table>
     </div>
     <!-- /.box-body -->
-    <div class="box-footer clearfix">
-        <ul class="pagination pagination-sm no-margin pull-right">
-            <li><a href="#">&laquo;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">&raquo;</a></li>
-        </ul>
+    <div class="box-footer clearfix" id="userPaging">
+        
     </div>
 </div>
 <!-- /.box -->
@@ -42,35 +30,28 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">添加用户</h4>
+                <h4 class="modal-title" >添加用户</h4>
             </div>
             <div class="modal-body">
 
-                <!-- Horizontal Form -->
-                <div class="box box-info">
-                    <!-- form start -->
-                    <form class="form-horizontal" id="userForm">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="username" class="col-sm-2 control-label">用户名</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" name="username" class="form-control" id="username" placeholder="输入用户名">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="password" name="password" class="col-sm-2 control-label">密码</label>
-
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="password"
-                                        placeholder="请输入密码">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.box-body -->
-                    </form>
+                <!-- general form elements -->
+          <div class="box box-primary">
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" id="userForm">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="username">用户名</label>
+                  <input type="text" name="username" class="form-control" id="username" placeholder="请输入用户名">
                 </div>
-                <!-- /.box -->
+                <div class="form-group">
+                  <label for="password">密码</label>
+                  <input type="password" name="password" class="form-control" id="password" placeholder="请输入密码">
+                </div>
+                </div>
+            </form>
+          </div>
+          <!-- /.box -->
 
             </div>
             <div class="modal-footer">

@@ -47,7 +47,13 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, './dist'),
         compress: true,
-        port: 8080
+        port: 8080,
+        // 跨域代理
+        proxy: {
+            "/api": {
+                target: "http://localhost:3000"
+            }
+        }
     },
 
     // 前端渲染模板
