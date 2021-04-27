@@ -1,6 +1,7 @@
 // 路由
 import SMERouter from 'sme-router'
-import { Login, Home } from '../controllers'
+import Login from '../controllers/login'
+import Home from '../controllers/home'
 
 const router = new SMERouter('root')//绑定要渲染页面的id
 
