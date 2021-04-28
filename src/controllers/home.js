@@ -8,6 +8,8 @@ import paging from '../public/page'
 import Page from '../dataShare/pageData'
 import router from '../router/index'
 
+const pageUserList = Page.pageUserList
+
 const htmlIndex = indexTpl({})
 
 let usersData = []
@@ -22,6 +24,9 @@ const userSave = () => {
     $.ajax({
         url: '/api/users',
         type: 'post',
+        headers: {
+            'X-Access-Token': localStorage.getItem('mai-token') || ''
+        },
         data,
         success(res) {
             Page.setCurPage(1)
@@ -36,12 +41,15 @@ const userSave = () => {
 const getUserList = () => {
     return $.ajax({
         url: '/api/users',
+        headers: {
+            'X-Access-Token': localStorage.getItem('mai-token') || ''
+        },
         success(res) {
             usersData = res.data
             // 分页
-            paging(res.data, pageUserList, curPage)
+            paging(res.data)
             // 用户列表渲染
-            showUserList(curPage)
+            showUserList(Page.curPage)
         }
     })
 }
@@ -70,15 +78,8 @@ const methods = () => {
 
     // 退出登录事件
     $('#userSignout').on('click', () => {
-        $.ajax({
-            url: '/api/users/signout',
-            dataType: 'json',
-            success(res) {
-                if (res.ret) {
-                    location.reload()
-                }
-            }
-        })
+        localStorage.setItem('mai-token', '')
+        location.reload()
     })
 
     // 删除用户事件
@@ -86,6 +87,9 @@ const methods = () => {
         $.ajax({
             url: 'api/users/delete',
             type: 'delete',
+            headers: {
+                'X-Access-Token': localStorage.getItem('mai-token') || ''
+            },
             data: {
                 id: $(this).data('id')
             },
@@ -142,6 +146,9 @@ const Home = (router) => {
         $.ajax({
             url: '/api/users/isAuth',
             dataType: 'json',
+            headers: {
+                'X-Access-Token': localStorage.getItem('mai-token') || ''
+            },
             success(result) {
                 if (result.ret) {
                     all(res)

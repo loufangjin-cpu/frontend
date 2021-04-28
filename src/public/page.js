@@ -2,8 +2,10 @@
 import userPage from '../views/userPage.art'
 import Page from '../dataShare/pageData'
 
+const pageUserList = Page.pageUserList
+
 // 用户列表分页事件
-const paging = (data, pageUserList) => {
+const paging = (data) => {
     let totalUsers = data.length
     let totalPageNum = Math.ceil(totalUsers / pageUserList)
     let pageArray = new Array(totalPageNum)
@@ -11,7 +13,7 @@ const paging = (data, pageUserList) => {
         data: pageArray
     }))
     setPageActive(Page.curPage)
-    pageEvent(data, pageUserList)
+    pageEvent(data)
 }
 
 // 页码高亮事件
@@ -23,7 +25,7 @@ const setPageActive = (index) => {
         .removeClass('active')
 }
 
-const pageEvent = (data, pageUserList) => {
+const pageEvent = (data) => {
     // 页码点击事件
     $('#userPaging').on('click', '#userPage li:not(:first-child,:last-child)', function () {
         // 给点击的页码高亮，并取消其他同级li高亮

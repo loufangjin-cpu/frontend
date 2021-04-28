@@ -13,7 +13,11 @@ const loginGo = (router) => {
             type: 'post',
             dataType: 'json',
             data,
-            success(res) {
+            success(res, textStatus, jqXHR) {
+                // 获取后端发送的token
+                const token = jqXHR.getResponseHeader('X-Access-Token')
+                // 并将token存到本地
+                localStorage.setItem('mai-token', token)
                 if (res.ret) {
                     router.go('/home')
                 }

@@ -11,6 +11,10 @@ router.use((req) => {
     $.ajax({
         url: '/api/users/isAuth',
         dataType: 'json',
+        // 登录请求时把存在本地的token通过请求头携带 给后端验证
+        headers: {
+            'X-Access-Token': localStorage.getItem('mai-token') || ''
+        },
         success(result) {
             if (result.ret) {
                 router.go('/home')
