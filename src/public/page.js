@@ -27,7 +27,7 @@ const setPageActive = (index) => {
 
 const pageEvent = (data) => {
     // 页码点击事件
-    $('#userPaging').on('click', '#userPage li:not(:first-child,:last-child)', function () {
+    $('#userPaging').off('click').on('click', '#userPage li:not(:first-child,:last-child)', function () {
         // 给点击的页码高亮，并取消其他同级li高亮
         const index = $(this).index()
         // 根据页码索引显示不同的内容

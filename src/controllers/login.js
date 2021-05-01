@@ -1,28 +1,22 @@
 import loginTpl from '../views/login.art'
+import { login } from '../models/login'
 const htmlLogin = loginTpl({})
 
 // 跳转home主页事件
 const loginGo = (router) => {
-    return (e) => {
+    return async (e) => {
         // 阻止提交表单
         e.preventDefault()
         // 登录跳转home主页
         const data = $('#login').serialize()
-        $.ajax({
-            url: '/api/users/login',
-            type: 'post',
-            dataType: 'json',
-            data,
-            success(res, textStatus, jqXHR) {
-                // 获取后端发送的token
-                const token = jqXHR.getResponseHeader('X-Access-Token')
-                // 并将token存到本地
-                localStorage.setItem('mai-token', token)
-                if (res.ret) {
-                    router.go('/home')
-                }
-            }
-        })
+        let { res, jqXHR } = await login(data)
+        // 获取后端发送的token
+        const token = jqXHR.getResponseHeader('X-Access-Token')
+        // 并将token存到本地
+        localStorage.setItem('mai-token', token)
+        if (res.ret) {
+            router.go('/home/users')
+        }
     }
 }
 

@@ -1,5 +1,7 @@
 // 载入路由
 import router from './router/index.js'
 
-router.go('/home')
+const hash = location.hash.slice(1)
+router.go(hash)
+
 

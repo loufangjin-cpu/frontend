@@ -1,34 +1,33 @@
 // 路由
-import SMERouter from 'sme-router'
+import GP21Router from 'gp21-router'
 import Login from '../controllers/login'
-import Home from '../controllers/home'
+import Home from '../controllers/index'
+import Users from '../controllers/users/userList'
+import Position from '../controllers/positions/positions'
+import { auth } from '../models/auth'
 
-const router = new SMERouter('root')//绑定要渲染页面的id
+const router = new GP21Router('root')//绑定要渲染页面的id
 
 // 路由守卫
-router.use((req) => {
-    // 根据用户是否登录来判断跳转页面
-    $.ajax({
-        url: '/api/users/isAuth',
-        dataType: 'json',
-        // 登录请求时把存在本地的token通过请求头携带 给后端验证
-        headers: {
-            'X-Access-Token': localStorage.getItem('mai-token') || ''
-        },
-        success(result) {
-            if (result.ret) {
-                router.go('/home')
-            } else {
-                router.go('/')
-            }
-        }
-    })
+router.use(async (req) => {
+    let result = await auth()
+    if (result.ret) {
+        router.go(req.url)
+    } else {
+        router.go('/login')
+    }
 })
 
+
+
 // 登录页面
-router.route('/', Login(router))
+router.route('/login', Login(router))
 // 主页
 router.route('/home', Home(router))
+// 用户管理
+router.route('/home/users', Users(router))
+// 职位管理
+router.route('/home/position', Position(router))
 
 
 export default router

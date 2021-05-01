@@ -7,7 +7,7 @@ module.exports = {
     mode: 'development', // 设置模式：开发模式
 
     devtool: 'source-map',
-    
+
     // 配置入口
     entry: {
         'js/app': './src/app.js'//要打包的文件路径
@@ -64,12 +64,22 @@ module.exports = {
                 test: /\.art$/,
                 exclude: /(node_modules)/,
                 use: {
-                    loader: 'art-template-loader'
+                    loader: 'art-template-loader',
+                    options: {
+                        escape: false
+                    }
                 }
-
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                exclude: /(node_modules)/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192
+                    }
+                }
             }
         ]
     }
-
-
 }
