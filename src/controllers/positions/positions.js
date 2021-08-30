@@ -49,38 +49,64 @@ const pageWatcher = () => {
 
 const Position = (router) => {
     return async (req, res, next) => {
-        let result = await auth()
-        if (result.ret) {
-            next()
-            // 渲染页面模板
-            res.render(positionsListTpl())
+      // let result = await auth()
+      // if (result.ret) {
+      //     next()
+      //     // 渲染页面模板
+      //     res.render(positionsListTpl())
 
-            // 获取用户列表数据
-            getList()
+      //     // 获取用户列表数据
+      //     getList()
 
-            // 观察者模式
-            pageWatcher()
+      //     // 观察者模式
+      //     pageWatcher()
 
-            // 添加职位事件
-            addPosition()
+      //     // 添加职位事件
+      //     addPosition()
 
-            // 删除事件
-            remove({
-                $box: $('#positionShow'),
-                state,
-                url: '/api/positions/delete',
-                getList
-            })
+      //     // 删除事件
+      //     remove({
+      //         $box: $('#positionShow'),
+      //         state,
+      //         url: '/api/positions/delete',
+      //         getList
+      //     })
 
+      //     // 编辑事件
+      //     $('#positionShow').off('click', '.positions-update').on('click', '.positions-update', function () {
+      //         // 编辑职位
+      //         updatePosition($(this).data('id'))
+      //     })
+      // } else {
+      //     router.go('/login')
+      // }
+      // 渲染页面模板
+      res.render(positionsListTpl())
 
-            // 编辑事件
-            $('#positionShow').off('click', '.positions-update').on('click', '.positions-update', function () {
-                // 编辑职位
-                updatePosition($(this).data('id'))
-            })
-        } else {
-            router.go('/login')
-        }
+      // 获取用户列表数据
+      getList()
+
+      // 观察者模式
+      pageWatcher()
+
+      // 添加职位事件
+      addPosition()
+
+      // 删除事件
+      remove({
+        $box: $('#positionShow'),
+        state,
+        url: '/api/positions/delete',
+        getList
+      })
+
+      // 编辑事件
+      $('#positionShow')
+        .off('click', '.positions-update')
+        .on('click', '.positions-update', function () {
+          // 编辑职位
+          updatePosition($(this).data('id'))
+        })
     }
 }
 

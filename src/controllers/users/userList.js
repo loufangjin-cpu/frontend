@@ -75,12 +75,13 @@ const Home = (router) => {
     }
 
     return async (req, res, next) => {
-        let result = await auth()
-        if (result.ret) {
-            all(res, next)
-        } else {
-            router.go('/login')
-        }
+      // let result = await auth()
+      // if (result.ret) {
+      //     all(res, next)
+      // } else {
+      //     router.go('/login')
+      // }
+      all(res, next)
     }
 }
 

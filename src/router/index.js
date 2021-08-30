@@ -9,14 +9,14 @@ import { auth } from '../models/auth'
 const router = new GP21Router('root')//绑定要渲染页面的id
 
 // 路由守卫
-router.use(async (req) => {
-    let result = await auth()
-    if (result.ret) {
-        router.go(req.url)
-    } else {
-        router.go('/login')
-    }
-})
+// router.use(async (req) => {
+//     let result = await auth()
+//     if (result.ret) {
+//         router.go(req.url)
+//     } else {
+//         router.go('/login')
+//     }
+// })
 
 
 
